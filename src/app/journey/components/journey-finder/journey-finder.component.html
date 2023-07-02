@@ -1,0 +1,69 @@
+<div class="container">
+  <h1 class="flight-attribute-label">{{title}}</h1>
+
+  <div class="sub-container">
+    <h2>Encuentra tu vuelo acá</h2>
+    <div class="form">
+      <ns-input
+        label="Ingresa el Orígen"
+        [(value)]="departureStation"
+        [uppercase]="true"
+        [minLength]="3"
+        [maxLength]="3"
+        [required]="true"
+      ></ns-input>
+
+      <ns-input
+        label="Ingresa el Destino"
+        [(value)]="arrivalStation"
+        [uppercase]="true"
+        [minLength]="3"
+        [maxLength]="3"
+        [required]="true"
+      ></ns-input>
+
+      <ns-input
+        label="Vuelos Máximos"
+        [(value)]="maxFlights"
+        [minLength]="1"
+        [maxLength]="1"
+        type="number"
+        [required]="true"
+      ></ns-input>
+
+
+      <div class="container-actions">
+        <select class="select" name="currencies" [(ngModel)]="currency">
+          <option [value]="item.currency" *ngFor="let item of currencyList">{{item.currency}}</option>
+        </select>
+        <button (click)="onSubmit()" class="button">Buscar</button>
+      </div>
+    </div>
+
+    <div class="result-container" *ngIf="notFlightsFound">
+      <span class="flight-attribute-label">Su consulta no puede ser procesada</span>
+    </div>
+
+    <div class="result-container" *ngIf="foundJorney">
+
+      <span>ORIGEN: {{ foundJorney.departureStation }}</span><br />
+      <span>DESTINO: {{ foundJorney.arrivalStation }}</span>
+  
+      <h2>Vuelos ({{foundJorney.flights.length - 1}} escalas)</h2>
+  
+      <div *ngFor="let flight of foundJorney.flights" class="result-flight-card">
+        <span><span class="flight-attribute-label">ORIGEN:</span> {{ flight.departureStation }}</span><br />
+        <span><span class="flight-attribute-label">DESTINO:</span> {{ flight.arrivalStation }}</span><br />
+        <span><span class="flight-attribute-label">PRECIO:</span> {{ formatCurrency(flight.price.toString()) }} USD</span><br />
+        <span><span class="flight-attribute-label">CARRIER:</span> {{ flight.flightCarrier }}</span><br />
+        <span><span class="flight-attribute-label"># VUELO:</span> {{ flight.flightNumber }}</span><br />
+      </div>
+  
+      <h4>TOTAL: {{formatCurrency(foundJorney.price.toString())}} USD</h4>
+      <h4 *ngIf="currency !== 'USD'">TOTAL: {{formatCurrency(priceExchange.toString())}} {{currency}}</h4>
+  
+    </div>
+  </div>
+
+  
+</div>

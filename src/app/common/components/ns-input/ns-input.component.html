@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="container_title" *ngIf="label">
+    <label class="mt-1 ms-4 title">{{label}}</label>
+    <span class="text-danger mt-1 ms-1" *ngIf="required">*</span>
+  </div>
+  <input
+    class="input"
+    value={{value}}
+    (change)="onChange($event)"
+    type={{type}}
+    minLength={{minLength}}
+    maxLength={{maxLength}}
+  />
+</div>
